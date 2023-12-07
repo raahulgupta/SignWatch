@@ -5,6 +5,8 @@ import os
 from gtts import gTTS 
 import base64
 import glob
+from weather import check_rain, load_api_key, get_location, fetch_weather_data
+
 
 # Load YOLOv5 model
 weight_file = 'C:/FV_2.0/Projects/SignWatch_m2/yolov5/runs/train/exp2/weights/best.pt'
@@ -28,6 +30,14 @@ def autoplay_audio(file_path: str):
             md,
             unsafe_allow_html=True,
         )
+
+def rain_pred():
+    api_key = load_api_key()
+    user_location = get_location()
+    weather_data = fetch_weather_data(api_key, user_location)
+    rainpred = check_rain(weather_data)
+    print(rainpred)
+    return rainpred
 
 def imageInput(src, lng):
     if src == 'Upload your own data.':
@@ -102,6 +112,15 @@ def main():
 
     st.header('Sign Watch🚦')
     st.subheader('👈🏽 Select the options')
+    st.text("")
+    st.subheader("Weather Forecast ☔")
+    text = rain_pred()
+    rain_text = f'{text}'
+    tts = gTTS(rain_text, lang=lngsrc)
+    tts.save("rain_pred_audio.mp3")
+    autoplay_audio("rain_pred_audio.mp3")
+    st.text("")
+                
     st.sidebar.markdown("https://github.com/Raahul-G?tab=repositories")
 
     imageInput(datasrc, lngsrc)
