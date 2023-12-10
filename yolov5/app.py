@@ -9,7 +9,7 @@ from weather import check_rain, load_api_key, get_location, fetch_weather_data
 
 
 # Load YOLOv5 model
-weight_file = 'C:/FV_2.0/Projects/SignWatch_m2/yolov5/runs/train/exp2/weights/best.pt'
+weight_file = 'C:/FV_2.0/Projects/SignWatch_m2/yolov5/runs/train/exp4/weights/best.pt'
 model = torch.hub.load('.', 'custom', path=weight_file, source='local', force_reload=True)
 model.cpu()
 
@@ -108,7 +108,7 @@ def main():
     # Sidebar
     st.sidebar.title('⚙️Options')
     datasrc = st.sidebar.radio("Select input source.", ['From test set.', 'Upload your own data.'])
-    lngsrc = st.sidebar.radio("Select language.", ['en', 'fr', 'zh-CN', 'es'])
+    lngsrc = st.sidebar.radio("Select language.", ['en', 'fr'])
 
     st.header('Sign Watch🚦')
     st.subheader('👈🏽 Select the options')
